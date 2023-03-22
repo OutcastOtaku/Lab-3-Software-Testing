@@ -243,5 +243,79 @@ public class DataUtilitiesTest  {
     }
     
     
+    @Test
+    public void testCalculateRowTotalWithNullData() {
+        double result = DataUtilities.calculateRowTotal(null, 0);
+        assertEquals(0.0, result, EPSILON);
+    }
+
+    @Test
+    public void testCalculateRowTotalWithNegativeRow() {
+        double result = DataUtilities.calculateRowTotal(values2D, -1);
+        assertEquals(0.0, result, EPSILON);
+    }
+
+    @Test
+    public void testCalculateRowTotalWithOutOfRangeRow() {
+        double result = DataUtilities.calculateRowTotal(values2D, 10);
+        assertEquals(0.0, result, EPSILON);
+    }
+
+    @Test
+    public void testCalculateRowTotalWithOneRowAndOneColumn() {
+        // Test Case 4
+        double result = DataUtilities.calculateRowTotal(values2D, 0);
+        Assert.assertEquals(1.0, result, EPSILON);
+    }
+
+    @Test
+    public void testCalculateRowTotalWithMultipleRowsAndColumnsFirstRow() {
+        // Test Case 5
+        DefaultKeyedValues2D testValues = new DefaultKeyedValues2D();
+        testValues.addValue(1, 0, 0);
+        testValues.addValue(2, 0, 1);
+        testValues.addValue(3, 0, 2);
+        testValues.addValue(4, 1, 0);
+        testValues.addValue(5, 1, 1);
+        testValues.addValue(6, 1, 2);
+        double result = DataUtilities.calculateRowTotal(testValues, 0);
+        Assert.assertEquals(6.0, result, EPSILON);
+    }
+
+    @Test
+    public void testCalculateRowTotal() {
+        double expectedOutput = 0.0;
+        for (int column = 0; column < values2D.getColumnCount(); column++) {
+            expectedOutput += values2D.getValue(3, column).doubleValue();
+        }
+        double actualOutput = DataUtilities.calculateRowTotal(values2D, 3);
+        assertEquals(expectedOutput, actualOutput, EPSILON);
+    }
+
+    @Test
+    public void testCalculateRowTotalWithNullValue() {
+        // Test Case 6
+        DefaultKeyedValues2D testValues = new DefaultKeyedValues2D();
+        testValues.addValue(null, 0, 0);
+        double result = DataUtilities.calculateRowTotal(testValues, 0);
+        Assert.assertEquals(0.0, result, EPSILON);
+    }
+
+    // Test case for null values in KeyedValues instance
+    @Test
+    public void testGetCumulativePercentages_NullValues() {
+        DefaultKeyedValues data = new DefaultKeyedValues();
+        data.addValue("0", 5);
+        data.addValue("1", null);
+        data.addValue("2", 2);
+        DefaultKeyedValues expected = new DefaultKeyedValues();
+        expected.addValue("0", 0.3125);
+        expected.addValue("1", 0.3125);
+        expected.addValue("2", 1.0);
+        KeyedValues result = DataUtilities.getCumulativePercentages(data);
+        assertEquals(expected.getValue("0"), result.getValue("0"));
+        assertEquals(expected.getValue("1"), result.getValue("1"));
+        assertEquals(expected.getValue("2"), result.getValue("2"));
+    }
     
 }
