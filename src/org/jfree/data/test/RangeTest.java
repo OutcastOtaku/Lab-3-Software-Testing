@@ -1,8 +1,9 @@
-package org.jfree.data.test;
+package org.jfree.data;
 
 import junit.framework.TestCase;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.jfree.data.Range;
@@ -132,7 +133,7 @@ public class RangeTest {
 
     @Test
     public void testConstrain_ValueEqualsLowerBoundMinusOne() {
-        double value = 0.0;
+        double value = -2.0;
         double expected = 1.0;
         double result = rangeObjectUnderTest.constrain(value);
         assertEquals(expected, result, 0.000000001d);
@@ -616,4 +617,3 @@ public class RangeTest {
     }
 }
  	   
-}
